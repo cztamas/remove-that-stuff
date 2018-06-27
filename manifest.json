@@ -1,0 +1,15 @@
+{
+	"manifest_version": 2,
+	"name": "Remove",
+	"version": "0.1.0",
+	"description": "very useful",
+	"browser_action": {
+		"default_icon": {}
+	},
+	"content_scripts": [
+		{
+			"matches": ["http://*/*", "https://*/*"],
+			"js": ["content.js"]
+		}
+	]
+}
