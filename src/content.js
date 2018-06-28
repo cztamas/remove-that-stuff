@@ -1,6 +1,6 @@
 "use strict";
 
-//const undoable = require("miraculous-undo");
+const undoable = require("miraculous-undo");
 
 const selectedClassName = "remove-extension-selected";
 
@@ -9,7 +9,6 @@ const selectedClassName = "remove-extension-selected";
 	let selectedElement = null;
 
 	document.body.addEventListener("click", event => {
-		console.log(event);
 		const target = event.target;
 		if(!active || !target) {
 			return;
@@ -30,13 +29,25 @@ const selectedClassName = "remove-extension-selected";
 			target.remove();
 		};
 
-		return false;
+		undoable.insert({
+			undo,
+			redo
+		});
 	}, true);
 
-	document.body.addEventListener("keypress", event => {
+	document.body.addEventListener("keydown", event => {
 		if (event.key === "d") {
 			active = true;
 			document.body.addEventListener("mousemove", selectItemUnderMouse);
+			return;
+		}
+		if (event.key === "z" && event.ctrlKey) {
+			undoable.undo();
+			return;
+		}
+		if (event.key === "y" && event.ctrlKey) {
+			undoable.redo();
+			return;
 		}
 	});
 
