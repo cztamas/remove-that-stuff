@@ -8,13 +8,13 @@ const selectedClassName = "remove-extension-selected";
 	let active = false;
 	let selectedElement = null;
 
-	document.body.addEventListener("click", event => {
+	document.addEventListener("click", event => {
 		const target = event.target;
 		if(!active || !target) {
 			return;
 		}
 		const parent = target.parentNode;
-		if (!parent) {
+		if (!parent || parent === document) {
 			return;
 		}
 		event.preventDefault();
@@ -35,10 +35,10 @@ const selectedClassName = "remove-extension-selected";
 		});
 	}, true);
 
-	document.body.addEventListener("keydown", event => {
+	document.addEventListener("keydown", event => {
 		if (event.key === "d") {
 			active = true;
-			document.body.addEventListener("mousemove", selectItemUnderMouse);
+			document.addEventListener("mousemove", selectItemUnderMouse);
 			return;
 		}
 		if (event.key === "z" && event.ctrlKey) {
@@ -49,17 +49,17 @@ const selectedClassName = "remove-extension-selected";
 			undoable.redo();
 			return;
 		}
-	});
+	}, true);
 
-	document.body.addEventListener("keyup", event => {
+	document.addEventListener("keyup", event => {
 		if (event.key === "d") {
 			active = false;
-			document.body.removeEventListener("mousemove", selectItemUnderMouse);
+			document.removeEventListener("mousemove", selectItemUnderMouse);
 		}
 		removeSelection();
-	});
+	}, true);
 
-	document.body.addEventListener("mouseover", event => {
+	document.addEventListener("mouseover", event => {
 		if (!active) {
 			return;
 		}
@@ -76,6 +76,9 @@ const selectedClassName = "remove-extension-selected";
 	}
 
 	function select(element) {
+		if (!element) {
+			return;
+		}
 		selectedElement = element;
 		element.classList.add(selectedClassName);
 	}
@@ -85,6 +88,6 @@ const selectedClassName = "remove-extension-selected";
 		let y = event.clientY;
 		let item = document.elementFromPoint(x, y);
 		select(item);
-		document.body.removeEventListener("mousemove", selectItemUnderMouse);
+		document.removeEventListener("mousemove", selectItemUnderMouse);
 	}
 }());
