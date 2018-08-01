@@ -1,8 +1,8 @@
 {
 	"manifest_version": 2,
-	"name": "Remove",
-	"version": "0.1.0",
-	"description": "very useful",
+	"name": "Click and remove elements",
+	"version": "0.1.1",
+	"description": "Click to temporarily remove elements from a page",
 	"browser_action": {
 		"default_icon": {}
 	},
